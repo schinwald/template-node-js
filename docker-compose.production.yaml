@@ -1,0 +1,26 @@
+version: "3.9"
+
+
+services:
+
+  backend:
+    build:
+      dockerfile: ./Dockerfile
+      target: deployment
+    networks:
+      - my-network
+    volumes:
+      - ./src:/app/src
+    env_file:
+      - ./.env.production
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "3000:3000"
+    command: npm run start:deployment
+    
+
+networks:
+
+  my-network:
+    driver: bridge
