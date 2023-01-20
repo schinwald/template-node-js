@@ -1,0 +1,38 @@
+/* Visit https://aka.ms/tsconfig to read more about this file */
+
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"lib": ["ESNext", "DOM"],
+		"module": "NodeNext",
+		"rootDirs": ["./src", "./tests"],
+		"moduleResolution": "Node",
+		"baseUrl": ".",
+		"paths": {
+			"@assets/*": ["./src/assets/*"],
+			"@assets": ["./src/assets"],
+			"@middleware/*": ["./src/middleware/*"],
+			"@middleware": ["./src/middleware"],
+			"@models/*": ["./src/models/*"],
+			"@models": ["./src/models"],
+			"@routes/*": ["./src/routes/*"],
+			"@routes": ["./src/routes"],
+			"@utils/*": ["./src/utils/*"],
+			"@utils": ["./src/utils"]
+		},
+		"resolveJsonModule": true,
+		"allowJs": true,
+		"sourceMap": true,
+		"outDir": "./build",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"skipLibCheck": true
+	},
+	"include": [
+		"./src/**/*.ts",
+		"./tests/**/*.ts"
+	]
+}
