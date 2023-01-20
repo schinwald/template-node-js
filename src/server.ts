@@ -1,4 +1,6 @@
+import '@utils/shutdown'
 import 'express-async-errors'
+import { environments } from '@utils/environments'
 import express from 'express'
 import createRouter from 'express-file-routing'
 import databases from '@utils/databases'
@@ -6,74 +8,37 @@ import assets from '@assets'
 import { z } from 'zod'
 import { customErrorMap, genericErrorHandler } from '@utils/errors'
 import { URLBuilder } from '@utils/builders/url'
-import { environments } from '@utils/environments'
+import chalk from 'chalk'
 
-// Handler for gracefully exitting
-async function exitHandler (): Promise<void> {
-  console.log('Closing down the server...')
-
-  console.log('Clearing all resources...')
-  await databases.disconnect()
-
-  console.log('Done!')
-  console.log('Shutting down.')
-}
-
-// Handle shutdown when process.exit occurs
-process.on('exit', () => {
-  void exitHandler()
-})
-
-// Handle shutdown when interrupt signal occurs
-process.on('SIGINT', () => {
-  process.exit(1)
-})
-
-// Handle shutdown when terminate signal occurs
-process.on('SIGTERM', () => {
-  process.exit(1)
-})
-
-// Handle shutdown when user defined signal occurs (nodemon)
-process.on('SIGUSR2', () => {
-  process.exit(1)
-})
-
-// Handle shutdown when an uncaught exception occurs
-process.on('uncaughtException', (exception) => {
-  // TODO: add sentry alert here
-  console.error(exception.stack)
-  process.exit(1)
-})
-
+/**
+* Entry point for starting up the node server
+*/
 async function main (): Promise<void> {
+  console.info(chalk.bold(`Starting the ${environments.APP_NAME} server`))
+  console.info('')
+
   // Starting the server
-  console.log('Starting server please wait...')
-
-  // Validate environment variables
-  console.log('Validating environment variables...')
-
   const app = express()
 
   // Setup database connections
-  console.log('Setting up database management system connections...')
+  console.info(`\t${chalk.bold.green('✓')} Setting up database management system`)
   await databases.connect()
 
   // Load assets
-  console.log('Loading assets...')
+  console.info(`\t${chalk.bold.green('✓')} Setting up assets`)
   assets.load()
 
   // Setup middleware that runs before routes
-  console.log('Setting up middleware...')
+  console.info(`\t${chalk.bold.green('✓')} Setting up middleware`)
   app.use(express.json())
   app.use(express.urlencoded({ extended: false }))
 
   // Automatically registers routes using the folder structure in the routes directory
-  console.log('Automatically registering routes based on file structure...')
+  console.info(`\t${chalk.bold.green('✓')} Setting up routes based on folder structure`)
   createRouter(app)
 
   // Setup error handler middleware
-  console.log('Setting up error handlers...')
+  console.info(`\t${chalk.bold.green('✓')} Setting up error handlers`)
   z.setErrorMap(customErrorMap)
   app.use(genericErrorHandler)
 
@@ -87,8 +52,16 @@ async function main (): Promise<void> {
       port: environments.APP_PORT
     })
 
-    console.log('Done!')
-    console.log(`Server running at ${url}`)
+    // Display server information
+    console.info('')
+    console.info(chalk.bold(`Done! Server is running at: 💻 ${chalk.blue(url)}`))
+
+    // Display documentation if it is provided
+    if (environments.APP_DOCUMENTATION !== undefined) {
+      console.info(chalk.bold(`See documentation for usage: 📚 ${chalk.blue(environments.APP_DOCUMENTATION)}`))
+    }
+
+    console.info('')
   })
 }
 

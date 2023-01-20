@@ -92,17 +92,17 @@ export const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
 
       switch (issue.validation) {
         case 'url':
-          return { message: `${prefix} is not a URL.` }
+          return { message: `${prefix} is not a valid format for a URL.` }
         case 'email':
-          return { message: `${prefix} is not an email.` }
+          return { message: `${prefix} is not a valid format for an email.` }
         case 'uuid':
-          return { message: `${prefix} is not a UUID.` }
+          return { message: `${prefix} is not a valid format for a UUID.` }
         case 'regex':
-          return { message: `${prefix} is not a regular expression.` }
+          return { message: `${prefix} is not a valid format for a regular expression.` }
         case 'cuid':
-          return { message: `${prefix} is not a CUID.` }
+          return { message: `${prefix} is not a valid format for a CUID.` }
         case 'datetime':
-          return { message: `${prefix} is not a date.` }
+          return { message: `${prefix} is not a valid format for a date.` }
       }
       break
     // Customize lower bound error message

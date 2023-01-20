@@ -5,20 +5,20 @@
 		"target": "ESNext",
 		"lib": ["ESNext", "DOM"],
 		"module": "NodeNext",
-		"rootDir": "./src",
+		"rootDirs": ["./src", "./tests"],
 		"moduleResolution": "Node",
-		"baseUrl": "./src",
+		"baseUrl": ".",
 		"paths": {
-			"@assets/*": ["assets/*"],
-			"@assets": ["assets"],
-			"@middleware/*": ["middleware/*"],
-			"@middleware": ["middleware"],
-			"@models/*": ["models/*"],
-			"@models": ["models"],
-			"@routes/*": ["routes/*"],
-			"@routes": ["routes"],
-			"@utils/*": ["utils/*"],
-			"@utils": ["utils"]
+			"@assets/*": ["./src/assets/*"],
+			"@assets": ["./src/assets"],
+			"@middleware/*": ["./src/middleware/*"],
+			"@middleware": ["./src/middleware"],
+			"@models/*": ["./src/models/*"],
+			"@models": ["./src/models"],
+			"@routes/*": ["./src/routes/*"],
+			"@routes": ["./src/routes"],
+			"@utils/*": ["./src/utils/*"],
+			"@utils": ["./src/utils"]
 		},
 		"resolveJsonModule": true,
 		"allowJs": true,
@@ -32,6 +32,7 @@
 		"skipLibCheck": true
 	},
 	"include": [
-		"./src/**/*.ts"
+		"./src/**/*.ts",
+		"./tests/**/*.ts"
 	]
 }
